@@ -23,7 +23,7 @@ resource "azurerm_network_security_rule" "nsg_rules" {
   destination_address_prefixes = each.value["destination_address_prefixes"]
   destination_address_prefix   = each.value["destination_address_prefix"]
   resource_group_name          = each.value["resource_group_name"]
-  network_security_group_name  = each.value["nsg_name"]
+  network_security_group_name  = azurerm_network_security_group.nsg[(each.value["nsg_name"])].name
 }
 
 resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostics" {
@@ -94,7 +94,7 @@ resource "azurerm_route" "routes" {
   next_hop_type          = each.value["next_hop_type"]
   next_hop_in_ip_address = each.value["next_hop_in_ip_address"]
   resource_group_name    = each.value["resource_group_name"]
-  route_table_name       = each.value["route_table_name"]
+  route_table_name       = azurerm_route_table.route_table[(each.value["route_table_name"])].name
 }
 
 resource "azurerm_virtual_network" "network" {
