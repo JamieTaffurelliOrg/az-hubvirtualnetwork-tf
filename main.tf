@@ -9,6 +9,7 @@ resource "azurerm_network_security_group" "nsg" {
 resource "azurerm_network_security_rule" "nsg_rules" {
   for_each                     = { for k in local.nsg_rules : k => "${k.rule_name}-${k.nsg_name}-${k.resource_group_name}" if k != null }
   name                         = each.value["rule_name"]
+  description                  = each.value["description"]
   priority                     = each.value["priority"]
   direction                    = each.value["direction"]
   access                       = each.value["access"]
