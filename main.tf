@@ -1,5 +1,5 @@
 resource "azurerm_network_security_group" "nsg" {
-  for_each            = { for k, v in var.network_security_groups : k => v.name if k != null }
+  for_each            = { for k in var.network_security_groups : k.name => k if k != null }
   name                = each.key
   resource_group_name = each.value["resource_group_name"]
   location            = var.location
@@ -7,7 +7,7 @@ resource "azurerm_network_security_group" "nsg" {
 }
 
 resource "azurerm_network_security_rule" "nsg_rules" {
-  for_each                     = { for k, v in local.nsg_rules : k => "${v.rule_name}-${v.nsg_name}-${v.resource_group_name}" if k != null }
+  for_each                     = { for k in local.nsg_rules : "${k.rule_name}-${k.nsg_name}-${k.resource_group_name}" => k if k != null }
   name                         = each.value["rule_name"]
   description                  = each.value["description"]
   priority                     = each.value["priority"]
@@ -27,7 +27,7 @@ resource "azurerm_network_security_rule" "nsg_rules" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostics" {
-  for_each                   = { for k, v in var.network_security_groups : k => v.name if k != null }
+  for_each                   = { for k in var.network_security_groups : k.name => k if k != null }
   name                       = "${var.log_analytics_workspace_name}-security-logging"
   target_resource_id         = azurerm_network_security_group.nsg[(each.key)].id
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.logs.id
@@ -54,7 +54,7 @@ resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostic
 }
 
 resource "azurerm_network_watcher_flow_log" "network" {
-  for_each                  = { for k, v in var.network_security_groups : k => v.name if k != null }
+  for_each                  = { for k in var.network_security_groups : k.name => k if k != null }
   name                      = each.key
   network_watcher_name      = var.network_watcher_name
   resource_group_name       = var.network_watcher_resource_group_name
@@ -79,7 +79,7 @@ resource "azurerm_network_watcher_flow_log" "network" {
 }
 
 resource "azurerm_route_table" "route_table" {
-  for_each                      = { for k, v in var.route_tables : k => v.name if k != null }
+  for_each                      = { for k in var.route_tables : k.name => k if k != null }
   name                          = each.key
   location                      = var.location
   resource_group_name           = each.value["resource_group_name"]
@@ -88,7 +88,7 @@ resource "azurerm_route_table" "route_table" {
 }
 
 resource "azurerm_route" "routes" {
-  for_each               = { for k, v in local.routes : k => "${v.route_name}-${v.route_table_name}-${v.resource_group_name}" if k != null }
+  for_each               = { for k in local.routes : "${k.route_name}-${k.route_table_name}-${k.resource_group_name}" => k if k != null }
   name                   = each.value["rule_name"]
   address_prefix         = each.value["address_prefix"]
   next_hop_type          = each.value["next_hop_type"]
@@ -106,7 +106,7 @@ resource "azurerm_virtual_network" "network" {
 }
 
 resource "azurerm_subnet" "subnets" {
-  for_each                                      = { for k, v in var.subnets : k => v.name if k != null }
+  for_each                                      = { for k in var.subnets : k.name => k if k != null }
   name                                          = each.key
   resource_group_name                           = var.resource_group_name
   virtual_network_name                          = azurerm_virtual_network.network.name
@@ -127,13 +127,13 @@ resource "azurerm_subnet" "subnets" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_join" {
-  for_each                  = { for k, v in var.subnets : k => v.name if k != null }
+  for_each                  = { for k in var.subnets : k.name => k if k != null }
   subnet_id                 = azurerm_subnet.subnets[each.key].id
   network_security_group_id = azurerm_network_security_group.nsg[each.value.network_security_group_reference].id
 }
 
 resource "azurerm_subnet_route_table_association" "route_table_join" {
-  for_each       = { for k, v in var.subnets : k => v.name if k != null }
+  for_each       = { for k in var.subnets : k.name => k if k != null }
   subnet_id      = azurerm_subnet.subnets[each.key].id
   route_table_id = azurerm_route_table.route_table[each.value.route_table_reference].id
 }
@@ -185,7 +185,7 @@ resource "azurerm_monitor_diagnostic_setting" "virtual_network_diagnostics" {
 }
 
 resource "azurerm_public_ip_prefix" "prefix" {
-  for_each            = { for k, v in var.public_ip_prefixes : k => v.name if k != null }
+  for_each            = { for k in var.public_ip_prefixes : k.name => k if k != null }
   name                = each.key
   location            = var.location
   resource_group_name = var.resource_group_name
