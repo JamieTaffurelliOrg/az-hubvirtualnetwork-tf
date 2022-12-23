@@ -1,10 +1,10 @@
 output "network_security_group_id" {
-  value       = { for k in azurerm_network_security_group.nsg : k => k.id }
+  value       = { for k, v in azurerm_network_security_group.nsg : k => v.id }
   description = "Resource IDs of the Network Security Groups"
 }
 
 output "route_table_id" {
-  value       = { for k in azurerm_route_table.route_table : k => k.id }
+  value       = { for k, v in azurerm_route_table.route_table : k => v.id }
   description = "Resource IDs of the Route Tables"
 }
 
