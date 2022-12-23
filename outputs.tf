@@ -4,7 +4,7 @@ output "network_security_group_id" {
 }
 
 output "route_table_id" {
-  value       = { for k, v in azurerm_route_table.route_table : k.id => k }
+  value       = { for k in azurerm_route_table.route_table : k.id => k }
   description = "Resource IDs of the Route Tables"
 }
 

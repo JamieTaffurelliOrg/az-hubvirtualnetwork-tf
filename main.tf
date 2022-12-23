@@ -116,12 +116,15 @@ resource "azurerm_subnet" "subnets" {
   private_endpoint_network_policies_enabled     = each.value.private_endpoint_network_policies_enabled
   private_link_service_network_policies_enabled = each.value.private_link_service_network_policies_enabled
 
-  delegation {
-    name = each.value.delegation ? "delegation" : null
+  dynamic "delegation" {
+    for_each = each.value.delegation == null ? [] : [1]
+    content {
+      name = "delegation"
 
-    service_delegation {
-      name    = each.value.delegation
-      actions = each.value.delegation_actions
+      service_delegation {
+        name    = each.value.delegation
+        actions = each.value.delegation_actions
+      }
     }
   }
 }
@@ -144,7 +147,7 @@ resource "azurerm_subnet" "firewall_subnet" {
   virtual_network_name                          = azurerm_virtual_network.network.name
   address_prefixes                              = var.firewall_subnet_address_prefixes
   service_endpoints                             = var.firewall_subnet_service_endpoints
-  service_endpoint_policy_ids                   = var.firewall_subnet_service_endpoint_policy_ids
+  service_endpoint_policy_ids                   = length(var.firewall_subnet_service_endpoint_policy_ids) == 0 ? null : var.firewall_subnet_service_endpoint_policy_ids
   private_endpoint_network_policies_enabled     = true
   private_link_service_network_policies_enabled = true
 }

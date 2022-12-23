@@ -89,7 +89,7 @@ variable "subnets" {
       network_security_group_reference              = string
       route_table_reference                         = string
       delegation                                    = optional(string)
-      delegation_actions                            = optional(string)
+      delegation_actions                            = optional(list(string))
     }
   ))
   description = "Subnets to deploy"
