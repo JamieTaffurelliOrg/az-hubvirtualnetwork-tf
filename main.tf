@@ -23,7 +23,7 @@ resource "azurerm_network_security_rule" "nsg_rules" {
   destination_address_prefixes = each.value["destination_address_prefixes"]
   destination_address_prefix   = each.value["destination_address_prefix"]
   resource_group_name          = each.value["resource_group_name"]
-  network_security_group_name  = each.value["network_security_group_name"]
+  network_security_group_name  = each.value["nsg_name"]
 }
 
 resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostics" {
@@ -89,12 +89,12 @@ resource "azurerm_route_table" "route_table" {
 
 resource "azurerm_route" "routes" {
   for_each               = { for k in local.routes : "${k.route_name}-${k.route_table_name}-${k.resource_group_name}" => k if k != null }
-  name                   = each.value["rule_name"]
+  name                   = each.value["route_name"]
   address_prefix         = each.value["address_prefix"]
   next_hop_type          = each.value["next_hop_type"]
   next_hop_in_ip_address = each.value["next_hop_in_ip_address"]
   resource_group_name    = each.value["resource_group_name"]
-  route_table_name       = each.value["network_security_group_name"]
+  route_table_name       = each.value["route_table_name"]
 }
 
 resource "azurerm_virtual_network" "network" {
