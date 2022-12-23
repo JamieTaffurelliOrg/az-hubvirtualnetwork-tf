@@ -88,6 +88,8 @@ variable "subnets" {
       private_link_service_network_policies_enabled = optional(bool, true)
       network_security_group_reference              = string
       route_table_reference                         = string
+      delegation                                    = optional(string)
+      delegation_actions                            = optional(string)
     }
   ))
   description = "Subnets to deploy"
