@@ -5,6 +5,7 @@ locals {
         nsg_name                     = nsg.name
         rule_name                    = nsg_rule.name
         resource_group_name          = nsg.resource_group_name
+        description                  = nsg_rule.description
         priority                     = nsg_rule.priority
         direction                    = nsg_rule.direction
         access                       = nsg_rule.access

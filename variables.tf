@@ -15,6 +15,8 @@ variable "network_security_groups" {
       resource_group_name = string
       rules = list(object(
         {
+          name                         = string
+          description                  = string
           priority                     = number
           direction                    = string
           access                       = string
@@ -43,6 +45,7 @@ variable "route_tables" {
       disable_bgp_route_propagation = optional(bool, true)
       routes = list(object(
         {
+          name                   = string
           address_prefix         = number
           next_hop_type          = string
           next_hop_in_ip_address = optional(string)
