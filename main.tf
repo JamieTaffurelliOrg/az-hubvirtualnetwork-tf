@@ -55,7 +55,6 @@ resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostic
 
 resource "azurerm_network_watcher_flow_log" "network" {
   for_each                  = { for k in var.network_security_groups : k.name => k if k != null }
-  provider                  = azurerm.logs
   name                      = each.key
   network_watcher_name      = var.network_watcher_name
   resource_group_name       = var.network_watcher_resource_group_name
@@ -196,5 +195,6 @@ resource "azurerm_public_ip_prefix" "prefix" {
   sku                 = "Standard"
   ip_version          = each.value.ip_version
   prefix_length       = each.value.prefix_length
+  zones               = [1, 2, 3]
   tags                = var.tags
 }
