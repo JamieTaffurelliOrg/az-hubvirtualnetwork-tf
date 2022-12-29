@@ -53,6 +53,31 @@ resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostic
   }
 }
 
+resource "azurerm_network_watcher_flow_log" "network" {
+  for_each                  = { for k in var.network_security_groups : k.name => k if k != null }
+  name                      = each.key
+  network_watcher_name      = var.network_watcher_name
+  resource_group_name       = var.network_watcher_resource_group_name
+  network_security_group_id = azurerm_network_security_group.nsg[(each.key)].id
+  storage_account_id        = data.azurerm_storage_account.logs.id
+  enabled                   = true
+  version                   = 2
+
+  retention_policy {
+    enabled = true
+    days    = 365
+  }
+
+  traffic_analytics {
+    enabled               = true
+    workspace_id          = data.azurerm_log_analytics_workspace.logs.workspace_id
+    workspace_region      = data.azurerm_log_analytics_workspace.logs.location
+    workspace_resource_id = data.azurerm_log_analytics_workspace.logs.id
+    interval_in_minutes   = 10
+  }
+  tags = var.tags
+}
+
 resource "azurerm_route_table" "route_table" {
   for_each                      = { for k in var.route_tables : k.name => k if k != null }
   name                          = each.key
