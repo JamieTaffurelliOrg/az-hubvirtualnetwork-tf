@@ -119,6 +119,16 @@ variable "public_ip_prefixes" {
   description = "Public IP prefixes to deploy"
 }
 
+variable "network_watcher_name" {
+  type        = string
+  description = "Name of Network Watcher to send diagnostics"
+}
+
+variable "network_watcher_resource_group_name" {
+  type        = string
+  description = "Resource Group of Network Watcher to send diagnostics"
+}
+
 variable "log_analytics_workspace_name" {
   type        = string
   description = "Name of Log Analytics Workspace to send diagnostics"
@@ -127,6 +137,16 @@ variable "log_analytics_workspace_name" {
 variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "Resource Group of Log Analytics Workspace to send diagnostics"
+}
+
+variable "storage_account_name" {
+  type        = string
+  description = "Name of storage account to send diagnostics"
+}
+
+variable "storage_account_resource_group_name" {
+  type        = string
+  description = "Resource Group of storage account to send diagnostics"
 }
 
 variable "tags" {
