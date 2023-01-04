@@ -107,6 +107,24 @@ variable "bastion_subnet_address_prefixes" {
   description = "IP range of the Azure Bastion subnet"
 }
 
+variable "bastion_network_security_group_name" {
+  type        = string
+  description = "Name of the NSG to attach to bastion subnet"
+}
+
+variable "bastion_network_security_group_allowed_ips" {
+  type = object(
+    {
+      ip_range  = optional(string)
+      ip_ranges = optional(list(string))
+    }
+  )
+  default = {
+    ip_range = "*"
+  }
+  description = "Client IPs allowed to connect to bastion, for multiple ranges use ip_ranges property"
+}
+
 variable "public_ip_prefixes" {
   type = list(object(
     {

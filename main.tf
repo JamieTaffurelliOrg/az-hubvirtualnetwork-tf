@@ -152,6 +152,32 @@ resource "azurerm_subnet" "firewall_subnet" {
   private_link_service_network_policies_enabled = true
 }
 
+resource "azurerm_network_security_group" "bastion_nsg" {
+  name                = var.bastion_network_security_group_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  tags                = var.tags
+}
+
+resource "azurerm_network_security_rule" "bastion_nsg_rules" {
+  for_each                     = { for k in local.bastion_nsg_rules : "${k.rule_name}-${var.bastion_network_security_group_name}-${k.resource_group_name}" => k if k != null }
+  name                         = each.value["rule_name"]
+  description                  = each.value["description"]
+  priority                     = each.value["priority"]
+  direction                    = each.value["direction"]
+  access                       = each.value["access"]
+  protocol                     = each.value["protocol"]
+  source_port_ranges           = each.value["source_port_ranges"]
+  source_port_range            = each.value["source_port_range"]
+  destination_port_ranges      = each.value["destination_port_ranges"]
+  destination_port_range       = each.value["destination_port_range"]
+  source_address_prefixes      = each.value["source_address_prefixes"]
+  source_address_prefix        = each.value["source_address_prefix"]
+  destination_address_prefixes = each.value["destination_address_prefixes"]
+  destination_address_prefix   = each.value["destination_address_prefix"]
+  resource_group_name          = each.value["resource_group_name"]
+  network_security_group_name  = azurerm_network_security_group.nsg[(each.value["nsg_name"])].name
+}
 resource "azurerm_subnet" "bastion_subnet" {
   name                                          = "AzureBastionSubnet"
   resource_group_name                           = var.resource_group_name
@@ -159,6 +185,11 @@ resource "azurerm_subnet" "bastion_subnet" {
   address_prefixes                              = var.bastion_subnet_address_prefixes
   private_endpoint_network_policies_enabled     = true
   private_link_service_network_policies_enabled = true
+}
+
+resource "azurerm_subnet_network_security_group_association" "bastion_nsg_join" {
+  subnet_id                 = azurerm_subnet.bastion_subnet.id
+  network_security_group_id = azurerm_network_security_group.bastion_nsg.id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "virtual_network_diagnostics" {

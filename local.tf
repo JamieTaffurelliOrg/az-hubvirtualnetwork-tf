@@ -32,4 +32,194 @@ locals {
         next_hop_in_ip_address = route.next_hop_in_ip_address
       }
   ]]))
+
+  bastion_nsg_rules = [
+    {
+      rule_name                    = "nsgsr-in-allow-client-443"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow internet inbound traffic on 443"
+      priority                     = 120
+      direction                    = "Inbound"
+      access                       = "Allow"
+      protocol                     = "TCP"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "443"
+      destination_port_ranges      = null
+      source_address_prefix        = var.bastion_network_security_group_allowed_ips.ip_range
+      source_address_prefixes      = var.bastion_network_security_group_allowed_ips.ip_ranges
+      destination_address_prefix   = "*"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-in-allow-GatewayManager-443"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow GatewayManager inbound traffic on 443"
+      priority                     = 130
+      direction                    = "Inbound"
+      access                       = "Allow"
+      protocol                     = "TCP"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "443"
+      destination_port_ranges      = null
+      source_address_prefix        = "GatewayManager"
+      source_address_prefixes      = null
+      destination_address_prefix   = "*"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-in-allow-AzureLoadBalancer-443"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow AzureLoadBalancer inbound traffic on 443"
+      priority                     = 140
+      direction                    = "Inbound"
+      access                       = "Allow"
+      protocol                     = "TCP"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "443"
+      destination_port_ranges      = null
+      source_address_prefix        = "AzureLoadBalancer"
+      source_address_prefixes      = null
+      destination_address_prefix   = "*"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-in-allow-VirtualNetwork-8080-5701"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow VirtualNetwork inbound traffic on 8080 and 5701"
+      priority                     = 150
+      direction                    = "Inbound"
+      access                       = "Allow"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = null
+      destination_port_ranges      = ["8080", "5701"]
+      source_address_prefix        = "VirtualNetwork"
+      source_address_prefixes      = null
+      destination_address_prefix   = "VirtualNetwork"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-in-deny-any-any"
+      resource_group_name          = var.resource_group_name
+      description                  = "Deny all inbound traffic"
+      priority                     = 4000
+      direction                    = "Inbound"
+      access                       = "Deny"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "*"
+      destination_port_ranges      = null
+      source_address_prefix        = "*"
+      source_address_prefixes      = null
+      destination_address_prefix   = "*"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-out-allow-VirtualNetwork-22-3389"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow VirtualNetwork outbound traffic on 22 and 3389"
+      priority                     = 120
+      direction                    = "Outbound"
+      access                       = "Allow"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = null
+      destination_port_ranges      = ["22", "3389"]
+      source_address_prefix        = "*"
+      source_address_prefixes      = null
+      destination_address_prefix   = "VirtualNetwork"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-out-allow-AzureCloud-443"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow AzureCloud outbound traffic on 443"
+      priority                     = 130
+      direction                    = "Outbound"
+      access                       = "Allow"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "443"
+      destination_port_ranges      = null
+      source_address_prefix        = "*"
+      source_address_prefixes      = null
+      destination_address_prefix   = "AzureCloud"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-out-allow-VirtualNetwork-8080-5701"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow VirtualNetwork outbound traffic on 8080 and 5701"
+      priority                     = 140
+      direction                    = "Outbound"
+      access                       = "Allow"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = null
+      destination_port_ranges      = ["8080", "5701"]
+      source_address_prefix        = "VirtualNetwork"
+      source_address_prefixes      = null
+      destination_address_prefix   = "VirtualNetwork"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-out-allow-VirtualNetwork-8080-5701"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow VirtualNetwork outbound traffic on 8080 and 5701"
+      priority                     = 140
+      direction                    = "Outbound"
+      access                       = "Allow"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = null
+      destination_port_ranges      = ["8080", "5701"]
+      source_address_prefix        = "VirtualNetwork"
+      source_address_prefixes      = null
+      destination_address_prefix   = "VirtualNetwork"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-out-allow-Internet-80"
+      resource_group_name          = var.resource_group_name
+      description                  = "Allow Internet outbound traffic on 80"
+      priority                     = 150
+      direction                    = "Outbound"
+      access                       = "Allow"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "80"
+      destination_port_ranges      = null
+      source_address_prefix        = "*"
+      source_address_prefixes      = null
+      destination_address_prefix   = "Internet"
+      destination_address_prefixes = null
+    },
+    {
+      rule_name                    = "nsgsr-out-deny-any-any"
+      resource_group_name          = var.resource_group_name
+      description                  = "Deny all outbound traffic"
+      priority                     = 4000
+      direction                    = "Outbound"
+      access                       = "Deny"
+      protocol                     = "*"
+      source_port_range            = "*"
+      source_port_ranges           = null
+      destination_port_range       = "*"
+      destination_port_ranges      = null
+      source_address_prefix        = "*"
+      source_address_prefixes      = null
+      destination_address_prefix   = "*"
+      destination_address_prefixes = null
+    }
+  ]
 }
