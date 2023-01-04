@@ -41,7 +41,7 @@ locals {
       priority                     = 120
       direction                    = "Inbound"
       access                       = "Allow"
-      protocol                     = "TCP"
+      protocol                     = "Tcp"
       source_port_range            = "*"
       source_port_ranges           = null
       destination_port_range       = "443"
@@ -58,7 +58,7 @@ locals {
       priority                     = 130
       direction                    = "Inbound"
       access                       = "Allow"
-      protocol                     = "TCP"
+      protocol                     = "Tcp"
       source_port_range            = "*"
       source_port_ranges           = null
       destination_port_range       = "443"
@@ -75,7 +75,7 @@ locals {
       priority                     = 140
       direction                    = "Inbound"
       access                       = "Allow"
-      protocol                     = "TCP"
+      protocol                     = "Tcp"
       source_port_range            = "*"
       source_port_ranges           = null
       destination_port_range       = "443"
