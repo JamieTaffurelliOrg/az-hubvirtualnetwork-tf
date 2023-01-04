@@ -200,9 +200,9 @@ resource "azurerm_public_ip_prefix" "prefix" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
-  count                 = var.private_dns_zone.enable_link == true ? 1 : 0
+  for_each              = { for k in var.private_dns_zones : k.name => k if k != null }
   name                  = var.virtual_network_name
-  resource_group_name   = var.private_dns_zone.resource_group_name
-  private_dns_zone_name = var.private_dns_zone.name
+  resource_group_name   = each.value["resource_group_name"]
+  private_dns_zone_name = each.value["name"]
   virtual_network_id    = azurerm_virtual_network.network.id
 }
