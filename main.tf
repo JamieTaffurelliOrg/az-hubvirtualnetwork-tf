@@ -176,7 +176,7 @@ resource "azurerm_network_security_rule" "bastion_nsg_rules" {
   destination_address_prefixes = each.value["destination_address_prefixes"]
   destination_address_prefix   = each.value["destination_address_prefix"]
   resource_group_name          = each.value["resource_group_name"]
-  network_security_group_name  = azurerm_network_security_group.nsg[(each.value["nsg_name"])].name
+  network_security_group_name  = azurerm_network_security_group.bastion_nsg.name
 }
 resource "azurerm_subnet" "bastion_subnet" {
   name                                          = "AzureBastionSubnet"
