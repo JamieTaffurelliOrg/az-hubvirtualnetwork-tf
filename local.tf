@@ -171,23 +171,6 @@ locals {
       destination_address_prefixes = null
     },
     {
-      rule_name                    = "nsgsr-out-allow-VirtualNetwork-8080-5701"
-      resource_group_name          = var.resource_group_name
-      description                  = "Allow VirtualNetwork outbound traffic on 8080 and 5701"
-      priority                     = 140
-      direction                    = "Outbound"
-      access                       = "Allow"
-      protocol                     = "*"
-      source_port_range            = "*"
-      source_port_ranges           = null
-      destination_port_range       = null
-      destination_port_ranges      = ["8080", "5701"]
-      source_address_prefix        = "VirtualNetwork"
-      source_address_prefixes      = null
-      destination_address_prefix   = "VirtualNetwork"
-      destination_address_prefixes = null
-    },
-    {
       rule_name                    = "nsgsr-out-allow-Internet-80"
       resource_group_name          = var.resource_group_name
       description                  = "Allow Internet outbound traffic on 80"
