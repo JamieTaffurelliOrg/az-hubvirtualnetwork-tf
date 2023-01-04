@@ -39,6 +39,7 @@ No modules.
 | [azurerm_subnet_route_table_association.route_table_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_route_table_association) | resource |
 | [azurerm_virtual_network.network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [azurerm_log_analytics_workspace.logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
+| [azurerm_storage_account.logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
 
 ## Inputs
 
@@ -58,6 +59,8 @@ No modules.
 | <a name="input_public_ip_prefixes"></a> [public\_ip\_prefixes](#input\_public\_ip\_prefixes) | Public IP prefixes to deploy | <pre>list(object(<br>    {<br>      name          = string<br>      ip_version    = optional(string, "IPv4")<br>      prefix_length = number<br>    }<br>  ))</pre> | `[]` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Resource Group name to deploy to | `string` | n/a | yes |
 | <a name="input_route_tables"></a> [route\_tables](#input\_route\_tables) | Route Tables to deploy | <pre>list(object(<br>    {<br>      name                          = string<br>      resource_group_name           = string<br>      disable_bgp_route_propagation = optional(bool, true)<br>      routes = list(object(<br>        {<br>          name                   = string<br>          address_prefix         = string<br>          next_hop_type          = string<br>          next_hop_in_ip_address = optional(string)<br>        }<br>      ))<br>    }<br>  ))</pre> | `[]` | no |
+| <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Name of storage account to send diagnostics | `string` | n/a | yes |
+| <a name="input_storage_account_resource_group_name"></a> [storage\_account\_resource\_group\_name](#input\_storage\_account\_resource\_group\_name) | Resource Group of storage account to send diagnostics | `string` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to deploy | <pre>list(object(<br>    {<br>      name                                          = string<br>      address_prefixes                              = list(string)<br>      service_endpoints                             = optional(list(string))<br>      service_endpoint_policy_ids                   = optional(list(string))<br>      private_endpoint_network_policies_enabled     = optional(bool, true)<br>      private_link_service_network_policies_enabled = optional(bool, true)<br>      network_security_group_reference              = string<br>      route_table_reference                         = string<br>      delegation                                    = optional(string)<br>      delegation_actions                            = optional(list(string))<br>    }<br>  ))</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply | `map(string)` | n/a | yes |
 | <a name="input_virtual_network_address_space"></a> [virtual\_network\_address\_space](#input\_virtual\_network\_address\_space) | Address space of the Virtual Network to deploy | `list(string)` | n/a | yes |
