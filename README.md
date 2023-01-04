@@ -25,7 +25,9 @@ No modules.
 |------|------|
 | [azurerm_monitor_diagnostic_setting.network_security_group_diagnostics](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_monitor_diagnostic_setting.virtual_network_diagnostics](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_network_security_group.bastion_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
 | [azurerm_network_security_group.nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
+| [azurerm_network_security_rule.bastion_nsg_rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_network_security_rule.nsg_rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_network_watcher_flow_log.network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.dns_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
@@ -35,6 +37,7 @@ No modules.
 | [azurerm_subnet.bastion_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.firewall_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.subnets](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [azurerm_subnet_network_security_group_association.bastion_nsg_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_subnet_network_security_group_association.nsg_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_subnet_route_table_association.route_table_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_route_table_association) | resource |
 | [azurerm_virtual_network.network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
@@ -45,6 +48,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_bastion_network_security_group_allowed_ips"></a> [bastion\_network\_security\_group\_allowed\_ips](#input\_bastion\_network\_security\_group\_allowed\_ips) | Client IPs allowed to connect to bastion, for multiple ranges use ip\_ranges property | <pre>object(<br>    {<br>      ip_range  = optional(string)<br>      ip_ranges = optional(list(string))<br>    }<br>  )</pre> | <pre>{<br>  "ip_range": "*"<br>}</pre> | no |
+| <a name="input_bastion_network_security_group_name"></a> [bastion\_network\_security\_group\_name](#input\_bastion\_network\_security\_group\_name) | Name of the NSG to attach to bastion subnet | `string` | n/a | yes |
 | <a name="input_bastion_subnet_address_prefixes"></a> [bastion\_subnet\_address\_prefixes](#input\_bastion\_subnet\_address\_prefixes) | IP range of the Azure Bastion subnet | `list(string)` | n/a | yes |
 | <a name="input_firewall_subnet_address_prefixes"></a> [firewall\_subnet\_address\_prefixes](#input\_firewall\_subnet\_address\_prefixes) | IP range of the Azure Firewall subnet | `list(string)` | n/a | yes |
 | <a name="input_firewall_subnet_service_endpoint_policy_ids"></a> [firewall\_subnet\_service\_endpoint\_policy\_ids](#input\_firewall\_subnet\_service\_endpoint\_policy\_ids) | Service endpoint policies to attach to Azure Firewall subnet | `list(string)` | `[]` | no |
