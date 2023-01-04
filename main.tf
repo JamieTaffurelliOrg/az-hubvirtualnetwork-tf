@@ -198,3 +198,11 @@ resource "azurerm_public_ip_prefix" "prefix" {
   zones               = [1, 2, 3]
   tags                = var.tags
 }
+
+resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
+  count                 = var.private_dns_zone.enable_link == true ? 1 : 0
+  name                  = var.virtual_network_name
+  resource_group_name   = var.private_dns_zone.resource_group_name
+  private_dns_zone_name = var.private_dns_zone.name
+  virtual_network_id    = azurerm_virtual_network.network.id
+}
