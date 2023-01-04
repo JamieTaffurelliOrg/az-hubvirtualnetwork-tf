@@ -143,7 +143,7 @@ locals {
       priority                     = 130
       direction                    = "Outbound"
       access                       = "Allow"
-      protocol                     = "*"
+      protocol                     = "Tcp"
       source_port_range            = "*"
       source_port_ranges           = null
       destination_port_range       = "443"
