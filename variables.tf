@@ -119,20 +119,15 @@ variable "public_ip_prefixes" {
   description = "Public IP prefixes to deploy"
 }
 
-variable "private_dns_zone" {
-  type = object(
+variable "private_dns_zones" {
+  type = list(object(
     {
       resource_group_name = string
       name                = string
-      enable_link         = bool
     }
-  )
-  default = {
-    resource_group_name = ""
-    name                = ""
-    enable_link         = false
-  }
-  description = "Link virtual network to private dns zone"
+  ))
+  default     = []
+  description = "Link virtual network to private dns zones"
 }
 
 variable "network_watcher_name" {
