@@ -140,8 +140,9 @@ variable "public_ip_prefixes" {
 variable "private_dns_zones" {
   type = list(object(
     {
-      resource_group_name = string
-      name                = string
+      resource_group_name  = string
+      name                 = string
+      registration_enabled = optional(bool, false)
     }
   ))
   default     = []
