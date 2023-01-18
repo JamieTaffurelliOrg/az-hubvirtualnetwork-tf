@@ -14,6 +14,7 @@
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.20 |
 | <a name="provider_azurerm.logs"></a> [azurerm.logs](#provider\_azurerm.logs) | ~> 3.20 |
+| <a name="provider_azurerm.spoke"></a> [azurerm.spoke](#provider\_azurerm.spoke) | ~> 3.20 |
 
 ## Modules
 
@@ -41,8 +42,10 @@ No modules.
 | [azurerm_subnet_network_security_group_association.nsg_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_subnet_route_table_association.route_table_join](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_route_table_association) | resource |
 | [azurerm_virtual_network.network](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
+| [azurerm_virtual_network_peering.peering](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_peering) | resource |
 | [azurerm_log_analytics_workspace.logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace) | data source |
 | [azurerm_storage_account.logs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
+| [azurerm_virtual_network.peered_networks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
 
@@ -60,7 +63,8 @@ No modules.
 | <a name="input_network_security_groups"></a> [network\_security\_groups](#input\_network\_security\_groups) | Network Security Groups to deploy | <pre>list(object(<br>    {<br>      name                = string<br>      resource_group_name = string<br>      rules = list(object(<br>        {<br>          name                         = string<br>          description                  = string<br>          priority                     = number<br>          direction                    = string<br>          access                       = string<br>          protocol                     = string<br>          source_port_ranges           = optional(list(string))<br>          source_port_range            = optional(string)<br>          destination_port_ranges      = optional(list(string))<br>          destination_port_range       = optional(string)<br>          source_address_prefix        = optional(string)<br>          source_address_prefixes      = optional(list(string))<br>          destination_address_prefix   = optional(string)<br>          destination_address_prefixes = optional(list(string))<br>        }<br>      ))<br>    }<br>  ))</pre> | `[]` | no |
 | <a name="input_network_watcher_name"></a> [network\_watcher\_name](#input\_network\_watcher\_name) | Name of Network Watcher to send diagnostics | `string` | n/a | yes |
 | <a name="input_network_watcher_resource_group_name"></a> [network\_watcher\_resource\_group\_name](#input\_network\_watcher\_resource\_group\_name) | Resource Group of Network Watcher to send diagnostics | `string` | n/a | yes |
-| <a name="input_private_dns_zones"></a> [private\_dns\_zones](#input\_private\_dns\_zones) | Link virtual network to private dns zones | <pre>list(object(<br>    {<br>      resource_group_name = string<br>      name                = string<br>    }<br>  ))</pre> | `[]` | no |
+| <a name="input_peerings"></a> [peerings](#input\_peerings) | Hub to spoke peerings to deploy | <pre>list(object(<br>    {<br>      remote_vnet_name                = string<br>      remote_vnet_resource_group_name = string<br>    }<br>  ))</pre> | `[]` | no |
+| <a name="input_private_dns_zones"></a> [private\_dns\_zones](#input\_private\_dns\_zones) | Link virtual network to private dns zones | <pre>list(object(<br>    {<br>      resource_group_name  = string<br>      name                 = string<br>      registration_enabled = optional(bool, false)<br>    }<br>  ))</pre> | `[]` | no |
 | <a name="input_public_ip_prefixes"></a> [public\_ip\_prefixes](#input\_public\_ip\_prefixes) | Public IP prefixes to deploy | <pre>list(object(<br>    {<br>      name          = string<br>      ip_version    = optional(string, "IPv4")<br>      prefix_length = number<br>    }<br>  ))</pre> | `[]` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Resource Group name to deploy to | `string` | n/a | yes |
 | <a name="input_route_tables"></a> [route\_tables](#input\_route\_tables) | Route Tables to deploy | <pre>list(object(<br>    {<br>      name                          = string<br>      resource_group_name           = string<br>      disable_bgp_route_propagation = optional(bool, true)<br>      routes = list(object(<br>        {<br>          name                   = string<br>          address_prefix         = string<br>          next_hop_type          = string<br>          next_hop_in_ip_address = optional(string)<br>        }<br>      ))<br>    }<br>  ))</pre> | `[]` | no |
