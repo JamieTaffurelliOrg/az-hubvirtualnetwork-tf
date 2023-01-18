@@ -193,12 +193,16 @@ resource "azurerm_subnet_network_security_group_association" "bastion_nsg_join" 
 }
 
 resource "azurerm_virtual_network_peering" "peering" {
-  for_each                  = { for k in var.peerings : "${azurerm_virtual_network.network.name}-${k.remote_vnet_name}" => k if k != null }
-  provider                  = azurerm.spoke
-  name                      = each.key
-  resource_group_name       = var.resource_group_name
-  virtual_network_name      = azurerm_virtual_network.network.name
-  remote_virtual_network_id = data.azurerm_virtual_network.peered_networks[(each.key)].id
+  for_each                     = { for k in var.peerings : "${azurerm_virtual_network.network.name}-${k.remote_vnet_name}" => k if k != null }
+  provider                     = azurerm.spoke
+  name                         = each.key
+  resource_group_name          = var.resource_group_name
+  virtual_network_name         = azurerm_virtual_network.network.name
+  remote_virtual_network_id    = data.azurerm_virtual_network.peered_networks[(each.key)].id
+  allow_virtual_network_access = each.value["allow_virtual_network_access"]
+  allow_forwarded_traffic      = each.value["allow_forwarded_traffic"]
+  allow_gateway_transit        = each.value["allow_gateway_transit"]
+  use_remote_gateways          = each.value["use_remote_gateways"]
 }
 
 resource "azurerm_monitor_diagnostic_setting" "virtual_network_diagnostics" {
