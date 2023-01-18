@@ -194,7 +194,6 @@ resource "azurerm_subnet_network_security_group_association" "bastion_nsg_join" 
 
 resource "azurerm_virtual_network_peering" "peering" {
   for_each                     = { for k in var.peerings : "${azurerm_virtual_network.network.name}-${k.remote_vnet_name}" => k if k != null }
-  provider                     = azurerm.spoke
   name                         = each.key
   resource_group_name          = var.resource_group_name
   virtual_network_name         = azurerm_virtual_network.network.name
