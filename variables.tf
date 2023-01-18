@@ -125,6 +125,17 @@ variable "bastion_network_security_group_allowed_ips" {
   description = "Client IPs allowed to connect to bastion, for multiple ranges use ip_ranges property"
 }
 
+variable "peerings" {
+  type = list(object(
+    {
+      remote_vnet_name                = string
+      remote_vnet_resource_group_name = string
+    }
+  ))
+  default     = []
+  description = "Hub to spoke peerings to deploy"
+}
+
 variable "public_ip_prefixes" {
   type = list(object(
     {
