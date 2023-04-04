@@ -142,6 +142,7 @@ resource "azurerm_subnet_route_table_association" "route_table_join" {
 }
 
 resource "azurerm_subnet" "firewall_subnet" {
+  #checkov:skip=CKV2_AZURE_31:Firewall subnet cant have nsg
   name                                          = "AzureFirewallSubnet"
   resource_group_name                           = var.resource_group_name
   virtual_network_name                          = azurerm_virtual_network.network.name
