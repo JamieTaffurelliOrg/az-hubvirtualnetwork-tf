@@ -12,9 +12,9 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.20 |
-| <a name="provider_azurerm.logs"></a> [azurerm.logs](#provider\_azurerm.logs) | ~> 3.20 |
-| <a name="provider_azurerm.spoke"></a> [azurerm.spoke](#provider\_azurerm.spoke) | ~> 3.20 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.37.0 |
+| <a name="provider_azurerm.logs"></a> [azurerm.logs](#provider\_azurerm.logs) | 3.37.0 |
+| <a name="provider_azurerm.spoke"></a> [azurerm.spoke](#provider\_azurerm.spoke) | 3.37.0 |
 
 ## Modules
 
