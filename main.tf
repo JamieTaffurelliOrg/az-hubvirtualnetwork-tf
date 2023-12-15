@@ -32,24 +32,12 @@ resource "azurerm_monitor_diagnostic_setting" "network_security_group_diagnostic
   target_resource_id         = azurerm_network_security_group.nsg[(each.key)].id
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.logs.id
 
-  log {
+  enabled_log {
     category = "NetworkSecurityGroupEvent"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
-  log {
+  enabled_log {
     category = "NetworkSecurityGroupRuleCounter"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 }
 
@@ -210,24 +198,13 @@ resource "azurerm_monitor_diagnostic_setting" "virtual_network_diagnostics" {
   target_resource_id         = azurerm_virtual_network.network.id
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.logs.id
 
-  log {
+  enabled_log {
     category = "VMProtectionAlerts"
-    enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 
   metric {
     category = "AllMetrics"
     enabled  = true
-
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
 }
 
